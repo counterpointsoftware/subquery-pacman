@@ -101,8 +101,19 @@ function addHighscore($name, $score, $level)
 	$name_clean = htmlspecialchars($name);
 	$score_clean = htmlspecialchars($score);
 
-	$db->exec('INSERT INTO highscore (name, score, level, date, log_referer, log_user_agent, log_remote_addr, log_remote_host, cheater)VALUES(?,?,?,?,?,?,?,?,?)', $name_clean, $score_clean, $level, $date, $ref, $ua, $remA, $remH, $cheater);
+	$insertStatement = $db->prepare('INSERT INTO highscore (name, score, level, date, log_referer, log_user_agent, log_remote_addr, log_remote_host, cheater) VALUES (:name, :score, :level, :date, :log_referer, :log_user_agent, :log_remote_addr, :log_remote_host, :cheater)');
+	
+	$insertStatement->bindValue(':name', $name_clean, SQLITE3_TEXT);
+	$insertStatement->bindValue(':score', $score_clean, SQLITE3_INTEGER);
+	$insertStatement->bindValue(':level', $level, SQLITE3_INTEGER);
+	$insertStatement->bindValue(':date', $date, SQLITE3_TEXT);
+	$insertStatement->bindValue(':log_referer', $ref, SQLITE3_TEXT);
+	$insertStatement->bindValue(':log_user_agent', $ua, SQLITE3_TEXT);
+	$insertStatement->bindValue(':log_remote_addr', $remA, SQLITE3_TEXT);
+	$insertStatement->bindValue(':log_remote_host', $remH, SQLITE3_TEXT);
+	$insertStatement->bindValue(':cheater', $cheater, SQLITE3_INTEGER);
 
+	$insertStatement->execute();
 
 	$response['status'] = "success";
 	$response['level'] = $level;
