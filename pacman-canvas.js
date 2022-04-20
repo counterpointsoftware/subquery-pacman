@@ -1041,7 +1041,7 @@ function geronimo() {
 		}
 	}
 
-	function pacman() {
+	function subqueryPacman() {
 		this.radius = 15;
 		this.posX = 0;
 		this.posY = 6 * 2 * this.radius;
@@ -1055,6 +1055,8 @@ function geronimo() {
 		this.stuckX = 0;
 		this.stuckY = 0;
 		this.frozen = false; // used to play die Animation
+		this.image = new Image();
+		this.image.src = 'img/subquery-icon.svg';
 		this.freeze = function () {
 			this.frozen = true;
 		}
@@ -1218,6 +1220,10 @@ function geronimo() {
 			} else this.dieAnimation();
 		}
 
+		this.draw = function (context) {
+			context.drawImage(this.image, this.posX, this.posY, 2 * this.radius, 2 * this.radius);
+		}
+
 		this.eat = function () {
 
 			if (!this.frozen) {
@@ -1287,8 +1293,9 @@ function geronimo() {
 			return (this.posY - (this.posY % 30)) / 30;
 		}
 	}
-	pacman.prototype = new Figure();
-	var pacman = new pacman();
+
+	subqueryPacman.prototype = new Figure();
+	var pacman = new subqueryPacman();
 	game.buildWalls();
 
 
@@ -1521,12 +1528,13 @@ function geronimo() {
 
 			// Pac Man
 			context.beginPath();
-			context.fillStyle = "Yellow";
-			context.strokeStyle = "Yellow";
+			context.fillStyle = "White";
+			context.strokeStyle = "White";
 			context.arc(pacman.posX + pacman.radius, pacman.posY + pacman.radius, pacman.radius, pacman.angle1 * Math.PI, pacman.angle2 * Math.PI);
 			context.lineTo(pacman.posX + pacman.radius, pacman.posY + pacman.radius);
 			context.stroke();
 			context.fill();
+			pacman.draw(context);
 		}
 
 	}
@@ -1574,6 +1582,7 @@ function geronimo() {
 			pacman.move();
 			pacman.eat();
 			pacman.checkDirectionChange();
+			//pacman.draw(context);  // TODO: Highlights the image is not centred!
 			pacman.checkCollisions(); // has to be the LAST method called on pacman
 
 			blinky.move();
