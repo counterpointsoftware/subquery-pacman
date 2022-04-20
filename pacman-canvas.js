@@ -1221,7 +1221,7 @@ function geronimo() {
 		}
 
 		this.draw = function (context) {
-			context.drawImage(this.image, this.posX, this.posY, 2 * this.radius, 2 * this.radius);
+			context.drawImage(this.image, this.posX, this.posY + 1, 2 * this.radius, 2 * this.radius);
 		}
 
 		this.eat = function () {
