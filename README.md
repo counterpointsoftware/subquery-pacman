@@ -37,7 +37,7 @@ Version history
 ===============
 
 *Version 1.0.6 - 20.04.2022*
-* Customised for Subquery quest
+* Customised for SubQuery quest
 * You play the indexer, collecting data from multiple chains
 * The pills are the pieces of data you are collecting
 * The ghosts represent slow data response times and are the enemy of the indexer
